@@ -23,7 +23,6 @@ type Book = {
 const BookSearch = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<Book[]>([]);
-    const [output, setOutput] = useState<string | null>(null); // For additional output if needed
 
     const handleSearch = async () => {
         if (!query) return;
@@ -57,10 +56,7 @@ const BookSearch = () => {
                     onChange={(e) => setQuery(e.target.value)}
                 />
                 <Button onClick={handleSearch}>Search</Button>
-                <Button onClick={() => handlePostRequest(query)}>Get Output</Button>
             </div>
-            
-            {output && <div className="output">{output}</div>}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {results.map((book) => (
