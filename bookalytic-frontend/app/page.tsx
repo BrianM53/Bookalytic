@@ -17,7 +17,8 @@ type Book = {
     title: string;
     authors: string;
     description: string;
-    publishedDate?: string; // Optional field for published date
+    publishedDate?: string;
+    pageCount?: number;
 };
 
 const BookSearch = () => {
@@ -28,7 +29,7 @@ const BookSearch = () => {
         if (!query) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(query)}`);
+            const response = await fetch(`http://127.0.0.1:5000/api/search?query=${encodeURIComponent(query)}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -81,7 +82,8 @@ const BookSearch = () => {
                         </CardContent>
                         <CardFooter>
                             <p className="text-sm text-muted-foreground">
-                                Published: {book.publishedDate || 'Unknown'}
+                                Published: {book.publishedDate || 'Unknown'} <br />
+                                Page Count: {book.pageCount || 'Unknown'}
                             </p>
                         </CardFooter>
                     </Card>
