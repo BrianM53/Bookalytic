@@ -8,7 +8,7 @@ import argparse
 import pandas as pd  # Import pandas for CSV handling
 
 class BM25:
-    def __init__(self, k1=1.5, b=0.75, rating_weight=0.1,publisher_weight=0.2):
+    def __init__(self, k1=1.5, b=0.75, rating_weight=0.1,publisher_weight=0.1):
         
         self.k1 = k1
         self.b = b
@@ -72,7 +72,7 @@ class BM25:
         ]
 
         self.ratings = [
-            float(book['averageRrating']) if book['averageRating'] != 'N/A' else None 
+            float(book['averageRating']) if book['averageRating'] != 'N/A' else None 
             for book in self.books
         ]
         self.average_rating = np.nanmean([r for r in self.ratings if r is not None])
@@ -143,7 +143,7 @@ class BM25:
         publisher_score = (self.reputable_publishers.get(publisher,1)) * self.publisher_weight
         
 
-        final_score = text_score + rating_score * publisher_score
+        final_score = text_score + publisher_score
         return final_score
     
     def _score_component(self, query: str, doc_index: int, documents: List[List[str]], 
@@ -206,7 +206,8 @@ class BM25:
                 'score': float(score),
                 'categories': book['categories'],
                 'publishedDate': book.get('publishedDate', 'N/A'),
-                'pageCount': int(book.get('pageCount', 'N/A'))
+                'pageCount': int(book.get('pageCount', 'N/A')),
+                'thumbnail': book.get('thumbnail','N/A')
             })
             
         return results
