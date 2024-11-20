@@ -19,6 +19,7 @@ type Book = {
     description: string;
     publishedDate?: string;
     pageCount?: number;
+    thumbnail?: string;
 };
 
 const BookSearch = () => {
@@ -78,6 +79,13 @@ const BookSearch = () => {
                             <CardDescription>{book.authors}</CardDescription>
                         </CardHeader>
                         <CardContent>
+                            {book.thumbnail && (
+                            <img 
+                                src={book.thumbnail} 
+                                alt={`${book.title} thumbnail`} 
+                                className="w-48 h-auto mb-4"
+                            />
+                            )}
                             <p>{book.description}</p>
                         </CardContent>
                         <CardFooter>
