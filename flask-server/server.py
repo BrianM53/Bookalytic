@@ -3,7 +3,7 @@ from algorithm import BM25  # Ensure you import the BM25 class
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # This will enable CORS for all routes
 
 # Initialize the BM25 algorithm
 bm25 = BM25()
