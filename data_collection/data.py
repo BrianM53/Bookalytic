@@ -66,7 +66,7 @@ def extract_book_data(item):
     return None  # Return None if there's no description
 
 # This collects the data based on the 10 different genres we chose
-def collect_books_data(queries, max_books_per_query=400):
+def collect_books_data(queries, max_books_per_query=600):
     books_data = []
     for query in queries:
         start_index = 0
@@ -95,6 +95,8 @@ books_data = collect_books_data(queries)
 
 books_df = pd.DataFrame(books_data)
 
+books_df = books_df.drop_duplicates(subset=['title', 'authors'])
+
 books_df.to_csv('books_datasetnew.csv', index=False)
 
 print(books_df.head())
@@ -109,12 +111,12 @@ books_df['description'] = books_df['description'].fillna('')
 books_df['description_length'] = books_df['description'].apply(lambda x: len(x.split()))
 
 # Plot the histogram of description lengths
-books_df['description_length'].hist(bins=30, color='lightcoral')
-plt.title('Distribution of Description Lengths')
-plt.xlabel('Number of Words in Description')
-plt.ylabel('Number of Books')
-plt.tight_layout()
+#books_df['description_length'].hist(bins=30, color='lightcoral')
+#plt.title('Distribution of Description Lengths')
+#plt.xlabel('Number of Words in Description')
+#plt.ylabel('Number of Books')
+#plt.tight_layout()
 
 # Save and display the plot
-plt.savefig('description_lengths.png')
-plt.show()
+#plt.savefig('description_lengths.png')
+#plt.show()

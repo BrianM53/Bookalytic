@@ -15,7 +15,7 @@ import React, { useState, useEffect } from 'react';
 type Book = {
     id: number; // Assuming you have an id for each book
     title: string;
-    authors: string;
+    authors?: string;
     description: string;
     publishedDate?: string;
     pageCount?: number;
@@ -28,6 +28,8 @@ const BookSearch = () => {
 
     const handleSearch = async () => {
         if (!query) return;
+
+        setResults([])
 
         try {
             const response = await fetch(`http://127.0.0.1:5000/api/search?query=${encodeURIComponent(query)}`);
@@ -90,7 +92,8 @@ const BookSearch = () => {
                         </CardContent>
                         <CardFooter>
                             <p className="text-sm text-muted-foreground">
-                                Published: {book.publishedDate || 'Unknown'} <br />
+                                Published: {book.publishedDate === 'NaN' || !book.publishedDate ? 'Unknown' : book.publishedDate} 
+                                <br />
                                 Page Count: {book.pageCount || 'Unknown'}
                             </p>
                         </CardFooter>

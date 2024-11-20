@@ -17,7 +17,7 @@ class BM25:
 
         self.reputable_publishers = {
             # General Fiction Publishers
-            "Penguin Books": 1.5,
+            "Penguin": 1.5,
             "HarperCollins": 1.4,
             "Simon & Schuster": 1.3,
             "Macmillan Publishers": 1.4,

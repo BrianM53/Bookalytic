@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from algorithm import BM25  # Ensure you import the BM25 class
 from flask_cors import CORS
+import math
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})  # This will enable CORS for all routes
@@ -28,7 +29,14 @@ def search_books():
     # Ensure all suggested books have valid data
     valid_books = []
     for book in suggested_books:
-        if isinstance(book.get('score'), (int, float)) and book.get('title') and book.get('authors'):
+        if (
+            isinstance(book.get('score'), (int, float)) and 
+            book.get('title') and 
+            book.get('authors') and 
+            book.get('publishedDate') and 
+            book['publishedDate'] != 'N/A' and 
+            not (isinstance(book['publishedDate'], float) and math.isnan(book['publishedDate']))
+        ):
             if 'categories' in book and (book['categories'] is None or isinstance(book['categories'], str)):
                 valid_books.append(book)
             else:
