@@ -35,7 +35,9 @@ def process_text(text):
 def extract_book_data(item):
     volume_info = item.get('volumeInfo', {})
     title = volume_info.get('title', 'N/A')
-    description = volume_info.get('description', None)  
+    description = volume_info.get('description', None) 
+    image_links = volume_info.get('imageLinks',{})
+    thumbnail = image_links.get('thumbnail', 'No Image Available') 
     
     # only go forward if the description exists, we only want books with descriptions.
     if description:
@@ -58,7 +60,8 @@ def extract_book_data(item):
             'pageCount': volume_info.get('pageCount', 'N/A'),
             'language': volume_info.get('language', 'N/A'),
             'description': volume_info.get('description'),
-            'preprocessed_text': preprocessed_text
+            'preprocessed_text': preprocessed_text,
+            'thumbnail': thumbnail
         }
     return None  # Return None if there's no description
 
