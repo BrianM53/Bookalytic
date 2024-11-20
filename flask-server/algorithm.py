@@ -48,7 +48,7 @@ class BM25:
     def _fetch_books(self):
         """Fetch books data from the local CSV file"""
         try:
-            data = pd.read_csv('books_dataset.csv')  # Read the CSV file
+            data = pd.read_csv('books_datasetnew.csv')  # Read the CSV file
             return data.to_dict(orient='records')  # Convert to list of dictionaries
         except (FileNotFoundError, pd.errors.EmptyDataError) as e:
             print(f"Error fetching books data: {e}")
@@ -149,7 +149,8 @@ class BM25:
                 'description': book['description'],
                 'score': float(score),
                 'categories': book['categories'],
-                'publication_date': book.get('publication_date', 'N/A')
+                'publishedDate': book.get('publishedDate', 'N/A'),
+                'pageCount': int(book.get('pageCount', 'N/A'))
             })
             
         return results
