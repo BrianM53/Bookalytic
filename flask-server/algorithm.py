@@ -5,7 +5,7 @@ from collections import Counter
 import requests
 import json
 import argparse
-import pandas as pd  # Import pandas for CSV handling
+import pandas as pd  
 
 class BM25:
     def __init__(self, k1=1.5, b=0.75, rating_weight=0.1,publisher_weight=0.1):
@@ -65,7 +65,7 @@ class BM25:
         # Fetch and store books data
         self.books = self._fetch_books()
         
-        # Create documents from preprocessed text
+        
         self.documents = [
             book['preprocessed_text'].lower().split() if 'preprocessed_text' in book else []
             for book in self.books
@@ -78,7 +78,7 @@ class BM25:
         self.average_rating = np.nanmean([r for r in self.ratings if r is not None])
         self.ratings = [r if r is not None else self.average_rating for r in self.ratings]
         
-        # Calculate lengths and averages
+        
         self.lengths = [len(doc) for doc in self.documents]
         if self.documents:
             self.avg_length = sum(self.lengths) / len(self.documents)
@@ -87,16 +87,16 @@ class BM25:
             print("Can't access books")
 
         
-        # Calculate document frequencies
+        
         self.doc_freqs = {}
         self.calculate_doc_frequencies()
         
-        # Calculate IDF scores
+        
         self.idf_scores = {}
         self.calculate_idf_scores()
     
     def _fetch_books(self):
-        """Fetch books data from the local CSV file"""
+        
         try:
             data = pd.read_csv('books_datasetnew.csv')  # Read the CSV file
             return data.to_dict(orient='records')  # Convert to list of dictionaries
@@ -105,29 +105,20 @@ class BM25:
             return []  
     
     def calculate_doc_frequencies(self):
-        """Calculate document frequencies for both title and text"""
+        
         for document in self.documents:
             for term in set(document):
                 self.doc_freqs[term] = self.doc_freqs.get(term, 0) + 1
     
     def calculate_idf_scores(self):
-        """Calculate IDF scores for both title and text"""
+        
         total_docs = len(self.documents)
         
         for term, doc_freq in self.doc_freqs.items():
             self.idf_scores[term] = math.log((total_docs - doc_freq + 0.5) / (doc_freq + 0.5) + 1.0)
     
     def score_document(self, query: str, doc_index: int) -> float:
-        """
-        Calculate combined BM25 score for a single document
-        
-        Args:
-            query: Search query string
-            doc_index: Index of document to score
-            
-        Returns:
-            float: Combined BM25 score
-        """
+       
         # Calculate text score
         text_score = self._score_component(
             query,
@@ -170,17 +161,7 @@ class BM25:
         return score
     
     def search(self, query: str, top_k: int = 6, normalize_scores: bool = True) -> List[dict]:
-        """
-        Search books with a query and return top k results
         
-        Args:
-            query: Search query string
-            top_k: Number of top results to return
-            normalize_scores: Whether to normalize scores to 0-1 range
-            
-        Returns:
-            List of dicts containing book information and search scores
-        """
         scores = []
         for i in range(len(self.documents)):
             score = self.score_document(query, i)

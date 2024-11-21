@@ -11,12 +11,7 @@ bm25 = BM25()
 
 @app.route('/api/search', methods=['GET'])
 def search_books():
-    """
-    Search for books based on a query parameter.
     
-    Returns:
-        JSON response with the top suggested books.
-    """
     query = request.args.get('query', '')
     print('Received search query:', query)  # Log the received query
 
